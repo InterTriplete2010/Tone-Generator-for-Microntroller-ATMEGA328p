@@ -11,7 +11,8 @@ int freq = 1000;		//Frequency of the tone
 unsigned long duration = 500;	//Duration of the tone
 long toggle_count;	//Keeps track of the duration of the tone
 const int ISI = 1000;	//Inter-Stimulus-Interval expressed in ms;
-int rep_stim = 5;	//Sweeps
+int rep_stim = 3;	//Sweeps
+int rep_stim_reset = rep_stim;
 
 //Setup the timer0
 void setup_timer() 
@@ -57,6 +58,12 @@ if (rep_stim == 0)
 	PORTB |= (1 << PORTB0);
 	TIMSK1 = 0x00;
 	
+	while((PIND & (1 << PIND5)));
+	
+	TIMSK1 = 0x02;	//Enable the interrupt
+	PORTB &= ~(1 << PORTB0);
+	rep_stim = rep_stim_reset;
+		
 }
 	
 }
@@ -81,7 +88,8 @@ else
 	
 }
 
-	DDRD |= (1 << DDD7) | (1 << DDD6);	//Ports used for the tone and for the LED	
+	DDRD |= (1 << DDD7) | (1 << DDD6) | (0 << DDD5);	//Ports used for the tone and for the LED + PD5 used as a reset button	
+	PORTD |= (1 << PORTD5);
 	DDRB |= (1 << DDB0);
 	
 	setup_timer();	
@@ -92,7 +100,8 @@ else
 	{
 		
 		
-		
 	}
+
+}
 
 }
