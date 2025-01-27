@@ -63,6 +63,7 @@ if (rep_stim == 0)
 	TIMSK1 = 0x02;	//Enable the interrupt
 	PORTB &= ~(1 << PORTB0);
 	rep_stim = rep_stim_reset;
+	TCNT1 = 0;
 		
 }
 	
@@ -95,6 +96,7 @@ else
 	setup_timer();	
 	TIMSK1 = 0x02;	//Enable the interrupt
 	sei();
+	TCNT1 = 0;
 	
 	while (1)
 	{
